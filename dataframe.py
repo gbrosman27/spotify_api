@@ -45,6 +45,18 @@ for song_id in ids:
 # Create dataframe from the song metadata using pandas.
 song_meta_df = pd.DataFrame.from_dict(song_meta)
 
-print(song_meta_df)
+# Check the song feature
+features = spot.audio_features(song_meta['id'])
+
+# Change dictionary to dataframe.
+features_df = pd.DataFrame.from_dict(features)
+
+# Convert ms to min. Song duration currently in milliseconds.
+features_df['duration_ms'] = features_df['duration_ms']/60000
+
+final_df = song_meta_df.merge(features_df)
+
+print(final_df)
+
 
 
